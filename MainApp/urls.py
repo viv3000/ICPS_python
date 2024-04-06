@@ -14,5 +14,4 @@ urlpatterns = [
         ]
 
 for model in apps.all_models['MainApp'].values():
-    print(model)
-    urlpatterns.append(path(f'{model.__name__}',  view=includeCRUD(model) ) )
+    urlpatterns.append(path(f'{model.__name__}/',  view=includeCRUD(model) ) )

@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, redirect
 
 def notLoggedUsers(view_func):

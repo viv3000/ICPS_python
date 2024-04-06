@@ -23,8 +23,8 @@ class Teacher(models.Model):
     user        = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Пользователь', default=0)
     fullName    = models.CharField(max_length=255, verbose_name='ФИО', null=True, blank=True)
     phoneNumber = models.CharField(max_length=15, verbose_name='Телефонный номер', null=True, blank=True)
-    classes = models.ManyToManyField(SchoolClass, verbose_name='Классы', null=True, blank=True)
-    subject = models.ManyToManyField(Subject, verbose_name='Предметы', null=True, blank=True)
+    classes = models.ManyToManyField(SchoolClass, verbose_name='Классы', blank=True)
+    subject = models.ManyToManyField(Subject, verbose_name='Предметы', blank=True)
 
     def __str__(self):
         return self.fullName

@@ -1,15 +1,22 @@
 from django.urls import path
 from django.urls import include
+from django.views.generic.base import RedirectView
 
-from .viewsGenerator import createView, BindedUpdate, BindedDelete, BindedRead, CRUDBinderICPS
+from .viewsGenerator import createCRUDBinder
 
 def includeCRUD(model):
-    binder = createBind(model)
+    binder = createCRUDBinder(model)
     urls = [
-        #path("create", BindedCreate.as_view(BindedCreate, binder)),
-        path("create", createView(binder)),
-        path("read",   BindedRead.as_view(BindedRead, binder)),
-        path("update", BindedUpdate.as_view(binder)),
-        path("delete", BindedDelete.as_view(binder)),
+        path("create/", binder.CreateViewType.as_view()),
+        path("create",  view=RedirectView.as_view(url="create/", permanent=False)),
+
+        path("read/", binder.ReadViewType.as_view()),
+        path("read",  view=RedirectView.as_view(url="read/", permanent=False)),
+
+        path("<pk>/update/", binder.UpdateViewType.as_view()),
+        path("<pk>/update",  view=RedirectView.as_view(url="update/", permanent=False)),
+
+        path("<pk>/delete/", binder.DeleteViewType.as_view()),
+        path("<pk>/delete",  view=RedirectView.as_view(url="delete/", permanent=False)),
     ]
     return include(urls)
