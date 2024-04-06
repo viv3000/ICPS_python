@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<ul> 
+	<!-- Iterate over object_list -->
+	<a href="../create/">Добавить</a>
+	<br/>
+	<br/>
+	{% for object in object_list %} 
+	<!-- Display Objects -->
+	<li> <a href="../{{object.id}}/update/"> {{object}} </a> </li>
+   
+	<hr/> 
+	<!-- If object_list is empty  -->
+	{% empty %} 
+	<li>No objects yet.</li> 
+	{% endfor %} 
+</ul>
+
+
+{% endblock %}
