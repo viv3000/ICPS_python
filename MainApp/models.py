@@ -1,15 +1,29 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from datetime import datetime
+from django.db.models.base import ValidationError
+
+import datetime
 
 
 class SchoolClass(models.Model):
+
     title = models.CharField(max_length=255, verbose_name='Буква класса')
     year  = models.IntegerField(verbose_name='Год набора')
 
+    def _getClassNumber(self, year):
+        date = datetime.datetime.now()
+        thisYear = date.year
+        thisMonth = date.month
+        september = 9
+        return thisYear - int(year.__str__()) + (1 if thisMonth >= september else 0)
+
     def __str__(self):
-        classNumber = datetime.now().year-int(str(self.year))
+        classNumber = self._getClassNumber( int(str(self.year)) )
+        classNumber = (
+                (classNumber 
+                    if classNumber <= 11 else f"(Класс выпустился в {datetime.datetime.now().year - classNumber + 11})" ) 
+                        if classNumber >= 0 else f"(Класс приступит к обучению в {self.year}!)")
         classLetter = "" if self.title==None else self.title
         return f"{classNumber}{classLetter}"
 
